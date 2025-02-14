@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { FileText, Settings, Upload, User } from 'lucide-react';
 import LatexRenderer from "@/components/LatexRenderer";
@@ -8,6 +8,33 @@ import { useRouter } from 'next/navigation';
 
 const Hero = () => {
   const router = useRouter();
+
+  useEffect(() => {
+    // Load MathJax with additional configurations
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+    script.async = true;
+    
+    // Configure MathJax
+    window.MathJax = {
+      tex: {
+        packages: ['base', 'ams', 'noerrors', 'noundefined'],
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

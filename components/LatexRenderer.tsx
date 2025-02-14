@@ -1,7 +1,5 @@
 // components/LatexRenderer.tsx
-import React from "react";
-import { BlockMath, InlineMath } from "react-katex";
-import "katex/dist/katex.min.css"; // Import Katex styles
+import React, { useEffect, useRef } from "react";
 
 interface LatexRendererProps {
   tex: string;
@@ -9,7 +7,17 @@ interface LatexRendererProps {
 }
 
 const LatexRenderer: React.FC<LatexRendererProps> = ({ tex, block = false }) => {
-  return block ? <BlockMath>{tex}</BlockMath> : <InlineMath>{tex}</InlineMath>;
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current && window.MathJax) {
+      containerRef.current.innerHTML = block ? `$$${tex}$$` : `$${tex}$`;
+      window.MathJax.typesetPromise?.([containerRef.current])
+        .catch((err) => console.error('MathJax typesetting failed:', err));
+    }
+  }, [tex, block]);
+
+  return <div ref={containerRef} />;
 };
 
 export default LatexRenderer;
