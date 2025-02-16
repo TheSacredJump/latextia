@@ -22,7 +22,7 @@ export default function DonatePage() {
               <h2 className="text-xl font-semibold text-[#3D95CE]">Venmo</h2>
               <div className="relative w-48 h-48">
                 <Image
-                  src="/qrvenmo.png" 
+                  src="/venmo.png" 
                   alt="Venmo QR Code"
                   fill
                   className="object-contain"
