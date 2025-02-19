@@ -48,7 +48,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-neutral-100 text-neutral-900 antialiased`}
       >
-        <Update />
         {children}
       </body>
     </html>
